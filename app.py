@@ -1,6 +1,8 @@
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 import os
+import random
+import string
 
 app = Flask(__name__)
 
@@ -18,7 +20,7 @@ with app.app_context():
 
 @app.route("/")
 def hello_world():
-    return "<p>Hello Monde!</p>"
+    return "<p>Hello Le Monde!</p>"
 
 @app.route('/create_user', methods=['POST'])
 def create_user():
@@ -27,3 +29,12 @@ def create_user():
     db.session.add(new_user)
     db.session.commit()
     return jsonify({'message': 'User created successfully'}), 201
+
+@app.route('/create_random_user', methods=['GET'])
+def create_random_user():
+    username = ''.join(random.choices(string.ascii_lowercase, k=8))
+    email = f"{username}@example.com"
+    new_user = User(username=username, email=email)
+    db.session.add(new_user)
+    db.session.commit()
+    return jsonify({'message': 'Random user created successfully', 'username': username, 'email': email}), 201
