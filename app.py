@@ -20,7 +20,11 @@ with app.app_context():
 
 @app.route("/")
 def hello_world():
-    return "<p>Hello Le Monde!</p>"
+    return "<p>Hello Monde!</p>"
+
+@app.route("/test")
+def hello_world():
+    return "<p>oooooooonde!</p>"
 
 @app.route('/create_user', methods=['POST'])
 def create_user():
