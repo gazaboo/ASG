@@ -34,7 +34,7 @@ def create_user():
     db.session.commit()
     return jsonify({'message': 'User created successfully'}), 201
 
-@app.route('/create_random_user', methods=['GET'])
+@app.route('/test_python/create_random_user', methods=['GET'])
 def create_random_user():
     username = ''.join(random.choices(string.ascii_lowercase, k=8))
     email = f"{username}@example.com"
