@@ -3,11 +3,11 @@
 # import random
 # import string
 # from flask import Flask, request, jsonify, url_for
-import os
-import sys
+# import os
+# import sys
 from flask import Flask, url_for
 
-sys.path.insert(0, os.path.dirname(__file__))
+# sys.path.insert(0, os.path.dirname(__file__))
 
 application = Flask(__name__)
 
