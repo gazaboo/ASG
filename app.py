@@ -18,7 +18,7 @@ class User(db.Model):
 with app.app_context():
     db.create_all()
 
-@app.route("/dd")
+@app.route("/test_python/hello")
 def hello_world():
     return "<p>Hello Monde!</p>"
 
