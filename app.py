@@ -11,11 +11,11 @@ from flask import Flask, url_for
 
 application = Flask(__name__)
 
-@app.route("/")
+@application.route("/")
 def hello():
     return f'<a href="{url_for("test")}">Go to Test</a>'
 
-@app.route("/test")
+@application.route("/test")
 def test():
     return "<p>Test!</p>"
 
