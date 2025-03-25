@@ -2,15 +2,14 @@
 # import os
 # import random
 # import string
+# from flask import Flask, request, jsonify, url_for
+import os
+import sys
+from flask import Flask, url_for
 
-from flask import Flask, request, jsonify, url_for
-from werkzeug.middleware.dispatcher import DispatcherMiddleware
+sys.path.insert(0, os.path.dirname(__file__))
 
 app = Flask(__name__)
-
-@app.before_request
-def app_before_request():
-    app.wsgi_app = DispatcherMiddleware(app.wsgi_app, {'test_python': app.wsgi_app})
 
 @app.route("/")
 def hello():
