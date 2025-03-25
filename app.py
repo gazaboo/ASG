@@ -29,10 +29,16 @@ def create_random_user():
     db.session.commit()
     return jsonify({'message': 'Random user created successfully', 'username': username, 'email': email}), 201
 
-@app.route('/create_user', methods=['POST'])
+@app.route('/create_user', methods=['GET'])
 def create_user():
     data = request.json
     new_user = User(username=data['username'], email=data['email'])
     db.session.add(new_user)
     db.session.commit()
     return jsonify({'message': 'User created successfully'}), 201
+
+@app.route('/users', methods=['GET'])
+def get_users():
+    users = User.query.all()
+    users_list = [{'id': user.id, 'username': user.username, 'email': user.email} for user in users]
+    return jsonify(users_list), 200
