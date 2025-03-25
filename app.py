@@ -1,30 +1,39 @@
+# from flask_sqlalchemy import SQLAlchemy
+# import os
+# import random
+# import string
+
 from flask import Flask, request, jsonify, url_for
-from flask_sqlalchemy import SQLAlchemy
-import os
-import random
-import string
+from werkzeug.middleware.dispatcher import DispatcherMiddleware
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = f"postgresql://{os.getenv('DB_USERNAME')}:{os.getenv('DB_PASSWORD')}@127.0.0.1:5432/{os.getenv('DB_NAME')}"
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db = SQLAlchemy(app)
-
-class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(80), unique=True, nullable=False)
-    email = db.Column(db.String(120), unique=True, nullable=False)
-
-with app.app_context():
-    db.create_all()
+@app.before_request
+def app_before_request():
+    app.wsgi_app = DispatcherMiddleware(app.wsgi_app, {'test_python': app.wsgi_app})
 
 @app.route("/")
-def hello_world():
+def hello():
     return f'<a href="{url_for("test")}">Go to Test</a>'
 
 @app.route("/test")
 def test():
     return "<p>Test!</p>"
+
+
+
+# app.config['SQLALCHEMY_DATABASE_URI'] = f"postgresql://{os.getenv('DB_USERNAME')}:{os.getenv('DB_PASSWORD')}@127.0.0.1:5432/{os.getenv('DB_NAME')}"
+# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+# db = SQLAlchemy(app)
+
+# class User(db.Model):
+#     id = db.Column(db.Integer, primary_key=True)
+#     username = db.Column(db.String(80), unique=True, nullable=False)
+#     email = db.Column(db.String(120), unique=True, nullable=False)
+
+# with app.app_context():
+#     db.create_all()
+
 
 # @app.route('/create_user', methods=['POST'])
 # def create_user():
