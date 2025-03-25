@@ -9,13 +9,13 @@ from flask import Flask, url_for
 
 # sys.path.insert(0, os.path.dirname(__file__))
 
-application = Flask(__name__)
+app = Flask(__name__)
 
-@application.route("/")
+@app.route("/")
 def hello():
     return f'<a href="{url_for("test")}">Go to Test</a>'
 
-@application.route("/test")
+@app.route("/test")
 def test():
     return "<p>Test!</p>"
 
