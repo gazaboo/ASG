@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, url_for
 from flask_sqlalchemy import SQLAlchemy
 import os
 import random
@@ -18,27 +18,27 @@ class User(db.Model):
 with app.app_context():
     db.create_all()
 
-@app.route("/test_python/hello")
+@app.route("/")
 def hello_world():
-    return "<p>Hello Monde!</p>"
+    return f'<a href="{url_for("test")}">Go to Test</a>'
 
 @app.route("/test")
-def hello_world_test():
-    return "<p>oooooooonde!</p>"
+def test():
+    return "<p>Test!</p>"
 
-@app.route('/create_user', methods=['POST'])
-def create_user():
-    data = request.json
-    new_user = User(username=data['username'], email=data['email'])
-    db.session.add(new_user)
-    db.session.commit()
-    return jsonify({'message': 'User created successfully'}), 201
+# @app.route('/create_user', methods=['POST'])
+# def create_user():
+#     data = request.json
+#     new_user = User(username=data['username'], email=data['email'])
+#     db.session.add(new_user)
+#     db.session.commit()
+#     return jsonify({'message': 'User created successfully'}), 201
 
-@app.route('/', methods=['GET'])
-def create_random_user():
-    username = ''.join(random.choices(string.ascii_lowercase, k=8))
-    email = f"{username}@example.com"
-    new_user = User(username=username, email=email)
-    db.session.add(new_user)
-    db.session.commit()
-    return jsonify({'message': 'Random user created successfully', 'username': username, 'email': email}), 201
+# @app.route('/', methods=['GET'])
+# def create_random_user():
+#     username = ''.join(random.choices(string.ascii_lowercase, k=8))
+#     email = f"{username}@example.com"
+#     new_user = User(username=username, email=email)
+#     db.session.add(new_user)
+#     db.session.commit()
+#     return jsonify({'message': 'Random user created successfully', 'username': username, 'email': email}), 201
