@@ -9,7 +9,7 @@ from flask import Flask, url_for
 
 # sys.path.insert(0, os.path.dirname(__file__))
 
-app = Flask(__name__)
+application = Flask(__name__)
 
 @app.route("/")
 def hello():

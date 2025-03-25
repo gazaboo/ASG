@@ -1,4 +1,4 @@
-from app import app
+from app import application
 # import imp
 # import os
 # import sys
