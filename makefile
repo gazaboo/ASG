@@ -18,5 +18,8 @@ update-dependencies:
 	. $(VENV_DIR)/bin/activate && pip install --upgrade -r requirements.txt
 
 restart-app:
-	ssh $(REMOTE_HOST) 'cd $(REMOTE_DIR) && touch tmp/restart.txt'
+	touch tmp/restart.txt'
+
+# restart-app:
+# 	ssh $(REMOTE_HOST) 'cd $(REMOTE_DIR) && touch tmp/restart.txt'
 
