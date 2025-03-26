@@ -32,7 +32,7 @@ def serve_vue(path):
         return send_from_directory(app.static_folder, path)
     return send_from_directory(app.static_folder, 'index.html')
 
-@app.route('/create_user', methods=['GET'])
+@app.route('/create_user', methods=['POST'])
 def create_user():
     data = request.json
     new_user = User(username=data['username'], email=data['email'])
