@@ -44,6 +44,8 @@ export default {
                 this.users = data;
             } catch (error) {
                 console.error('Error fetching users:', error);
+                console.error('Error fetching users:', data);
+
             }
         },
         async createUser() {
