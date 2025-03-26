@@ -6,12 +6,14 @@ REMOTE_DIR = ~/test_python
 VENV_DIR = /home/jilu3758/virtualenv/test_python/3.12/
 
 deploy:
-	cd vue_app && npm run build && \
-	cp -r dist/* ../static/ && \
+	cd vue_app && rm -rf ./dist && npm run build && \
+	rm -rf ../static/* && cp -r dist/* ../static/ && \
 	ssh $(REMOTE_HOST) "cd $(REMOTE_DIR) && git pull origin main && make install && make update-dependencies && make restart-app"
 
 local-run:
-	cd vue_app && npm run build && \
+	cd vue_app && rm -rf ./dist && \
+	npm run build && \
+	rm -rf ../static/* && \
 	cp -r dist/* ../static/ && \
 	sudo docker compose up --build
 
