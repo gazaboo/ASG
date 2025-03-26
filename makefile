@@ -18,8 +18,21 @@ update-dependencies:
 	. $(VENV_DIR)/bin/activate && pip install --upgrade -r requirements.txt
 
 restart-app:
-	touch tmp/restart.txt'
+	touch tmp/restart.txt
 
-# restart-app:
-# 	ssh $(REMOTE_HOST) 'cd $(REMOTE_DIR) && touch tmp/restart.txt'
+setup-env:
+	test -f .env || cp .env.example .env
+	. $(VENV_DIR)/bin/activate && python -c "import secrets; print(f'SECRET_KEY={secrets.token_hex(16)}')" >> .env
 
+clean:
+	find . -type f -name '*.pyc' -delete
+	find . -type d -name '__pycache__' -delete
+
+test:
+	. $(VENV_DIR)/bin/activate && python -m pytest
+
+lint:
+	. $(VENV_DIR)/bin/activate && flake8 .
+
+local-run:
+	. $(VENV_DIR)/bin/activate && flask run
