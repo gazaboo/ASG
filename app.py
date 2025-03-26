@@ -2,12 +2,12 @@ from flask_sqlalchemy import SQLAlchemy
 import os
 import random
 import string
-from flask import Flask, request, jsonify, url_for
+from flask import Flask, request, jsonify, url_for, send_from_directory
 import os
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static', static_url_path='/')
 
-app.config['SQLALCHEMY_DATABASE_URI'] = f"postgresql://{os.getenv('DB_USERNAME')}:{os.getenv('DB_PASSWORD')}@127.0.0.1:5432/{os.getenv('DB_NAME')}"
+app.config['SQLALCHEMY_DATABASE_URI'] = f"postgresql://{os.getenv('DB_USERNAME')}:{os.getenv('DB_PASSWORD')}@db:5432/{os.getenv('DB_NAME')}"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
@@ -20,14 +20,13 @@ with app.app_context():
     db.create_all()
 
 
-@app.route('/', methods=['GET'])
-def create_random_user():
-    username = ''.join(random.choices(string.ascii_lowercase, k=8))
-    email = f"{username}@example.com"
-    new_user = User(username=username, email=email)
-    db.session.add(new_user)
-    db.session.commit()
-    return jsonify({'message': 'Random user created successfully', 'username': username, 'email': email}), 201
+# Serve the Vue app for any unmatched routes
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def serve_vue(path):
+    if path and os.path.exists(os.path.join(app.static_folder, path)):
+        return send_from_directory(app.static_folder, path)
+    return send_from_directory(app.static_folder, 'index.html')
 
 @app.route('/create_user', methods=['GET'])
 def create_user():
@@ -42,3 +41,13 @@ def get_users():
     users = User.query.all()
     users_list = [{'id': user.id, 'username': user.username, 'email': user.email} for user in users]
     return jsonify(users_list), 200
+
+
+# @app.route('/', methods=['GET'])
+# def create_random_user():
+#     username = ''.join(random.choices(string.ascii_lowercase, k=8))
+#     email = f"{username}@example.com"
+#     new_user = User(username=username, email=email)
+#     db.session.add(new_user)
+#     db.session.commit()
+#     return jsonify({'message': 'Random user created successfully', 'username': username, 'email': email}), 201
