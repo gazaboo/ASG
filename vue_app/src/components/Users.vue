@@ -26,6 +26,7 @@ export default {
                 const data = await response.json();
                 this.users = data;
             } catch (error) {
+                console.error('Pas trouvé !');
                 console.error('Error fetching users:', error);
             }
         }
