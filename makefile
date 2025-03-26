@@ -10,6 +10,11 @@ deploy:
 	cp -r dist/* ../static/ && \
 	ssh $(REMOTE_HOST) "cd $(REMOTE_DIR) && git pull origin main && make install && make update-dependencies && make restart-app"
 
+local-run:
+	cd vue_app && npm run build && \
+	cp -r dist/* ../static/ && \
+	sudo docker compose up --build
+
 install:
 	test -d $(VENV_DIR) || python3 -m venv $(VENV_DIR)
 	. $(VENV_DIR)/bin/activate && pip install -r requirements.txt
@@ -34,5 +39,4 @@ test:
 lint:
 	. $(VENV_DIR)/bin/activate && flake8 .
 
-local-run:
-	. $(VENV_DIR)/bin/activate && flask run
+

@@ -38,8 +38,9 @@ export default {
     },
     methods: {
         async fetchUsers() {
+            const base = process.env.ENVIRONMENT === 'production' ? '/test_python' : '';
             try {
-                const response = await fetch('/test_python/users');
+                const response = await fetch(`${base}/users`);
                 const data = await response.json();
                 this.users = data;
             } catch (error) {
@@ -49,8 +50,10 @@ export default {
             }
         },
         async createUser() {
+            const base = process.env.ENVIRONMENT === 'production' ? '/test_python' : '';
+
             try {
-                const response = await fetch('/test_python/create_user', {
+                const response = await fetch(`${base}/create_user`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

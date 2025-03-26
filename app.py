@@ -1,17 +1,20 @@
 from flask_sqlalchemy import SQLAlchemy
-from flask_cors import CORS
 import os
-import random
-import string
 from flask import Flask, request, jsonify, url_for, send_from_directory
 import os
 
 app = Flask(__name__, static_folder='static', static_url_path='/')
 
-CORS(app, resources={r"/*": {"origins": "http://jilu3758.odns.fr/test_python/"}})
+# from flask_cors import CORS
+# CORS(app, resources={r"/*": {"origins": "http://jilu3758.odns.fr/test_python/"}})
 
+DB_HOST = os.getenv('DB_HOST', '127.0.0.1')
+DB_USERNAME = os.getenv('DB_USERNAME')
+DB_PASSWORD = os.getenv('DB_PASSWORD')
+DB_NAME = os.getenv('DB_NAME')
+PORT = os.getenv('PORT', 5432)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = f"postgresql://{os.getenv('DB_USERNAME')}:{os.getenv('DB_PASSWORD')}@127.0.0.1:5432/{os.getenv('DB_NAME')}"
+app.config['SQLALCHEMY_DATABASE_URI'] = f"postgresql://{DB_USERNAME}:{DB_PASSWORD}@{DB_HOST}:{PORT}/{DB_NAME}"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
@@ -45,13 +48,3 @@ def get_users():
     users = User.query.all()
     users_list = [{'id': user.id, 'username': user.username, 'email': user.email} for user in users]
     return jsonify(users_list), 200
-
-
-# @app.route('/', methods=['GET'])
-# def create_random_user():
-#     username = ''.join(random.choices(string.ascii_lowercase, k=8))
-#     email = f"{username}@example.com"
-#     new_user = User(username=username, email=email)
-#     db.session.add(new_user)
-#     db.session.commit()
-#     return jsonify({'message': 'Random user created successfully', 'username': username, 'email': email}), 201
