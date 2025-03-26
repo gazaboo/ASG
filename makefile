@@ -7,12 +7,8 @@ VENV_DIR = /home/jilu3758/virtualenv/test_python/3.12/
 
 deploy:
 	cd vue_app && npm run build && \
-	cp -r vue_app/dist/* ../static/ && \
-	ssh $(REMOTE_HOST) 'cd $(REMOTE_DIR) && \ 
-	git pull origin main && \ 
-	make install && \
-	make update-dependencies && \
-	make restart-app'
+	cp -r dist/* ../static/ && \
+	ssh $(REMOTE_HOST) "cd $(REMOTE_DIR) && git pull origin main && make install && make update-dependencies && make restart-app"
 
 install:
 	test -d $(VENV_DIR) || python3 -m venv $(VENV_DIR)
