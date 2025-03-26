@@ -39,7 +39,7 @@ export default {
     methods: {
         async fetchUsers() {
             try {
-                const response = await fetch('/users');
+                const response = await fetch('/test_python/users');
                 const data = await response.json();
                 this.users = data;
             } catch (error) {
@@ -48,7 +48,7 @@ export default {
         },
         async createUser() {
             try {
-                const response = await fetch('/create_user', {
+                const response = await fetch('/test_python/create_user', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
