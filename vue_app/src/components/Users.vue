@@ -22,7 +22,7 @@ export default {
     methods: {
         async fetchUsers() {
             try {
-                const response = await fetch('/users');
+                const response = await fetch('/test_python/users');
                 const data = await response.json();
                 this.users = data;
             } catch (error) {
