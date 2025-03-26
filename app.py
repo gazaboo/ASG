@@ -1,4 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
+from flask_cors import CORS
 import os
 import random
 import string
@@ -6,6 +7,9 @@ from flask import Flask, request, jsonify, url_for, send_from_directory
 import os
 
 app = Flask(__name__, static_folder='static', static_url_path='/')
+
+CORS(app, resources={r"/*": {"origins": "http://jilu3758.odns.fr/test_python/"}})
+
 
 app.config['SQLALCHEMY_DATABASE_URI'] = f"postgresql://{os.getenv('DB_USERNAME')}:{os.getenv('DB_PASSWORD')}@127.0.0.1:5432/{os.getenv('DB_NAME')}"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
