@@ -3,10 +3,9 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 import os
 
-app = Flask(__name__, static_folder='static', static_url_path='/')
+app = Flask(__name__, static_folder='static', static_url_path='/test_python/')
 
 # Create a Blueprint
-bp = Blueprint('main', __name__)
 
 # from flask_cors import CORS
 # CORS(app, resources={r"/*": {"origins": "http://jilu3758.odns.fr/test_python/"}})
@@ -17,9 +16,6 @@ DB_USERNAME = os.getenv('DB_USERNAME')
 DB_PASSWORD = os.getenv('DB_PASSWORD')
 DB_NAME = os.getenv('DB_NAME')
 PORT = os.getenv('PORT', 5432)
-
-APP_NAME = os.getenv('APP_NAME_O2SWITCH')
-FLASK_ENV = os.getenv('FLASK_ENV', 'production')
 
 app.config['SQLALCHEMY_DATABASE_URI'] = f"postgresql://{DB_USERNAME}:{DB_PASSWORD}@{DB_HOST}:{PORT}/{DB_NAME}"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
