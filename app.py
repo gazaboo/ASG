@@ -31,16 +31,17 @@ with app.app_context():
 # Middleware to restrict access in production
 @app.before_request
 def restrict_routes():
+    if request.path == '/':
+        return
     if os.getenv('FLASK_ENV') == 'development':
         return
-
-    # Allow only the root route ('/') in production
-    if request.path != '/' and not request.path.startswith(f'{APP_PREFIX}/assets'):
-        origin = request.headers.get('Origin')
-        ALLOWED_ORIGINS = {"http://jilu3758.odns.fr", "http://localhost"}
-        app.logger.info(f"XXXXXXXXXXXXXXXXXXX Origin: {origin}")
-        if origin not in ALLOWED_ORIGINS:
-            return jsonify({"error": origin}), 403
+    if request.path.startswith(f'{APP_PREFIX}/assets'):
+        return
+    
+    origin = request.headers.get('Origin')
+    ALLOWED_ORIGINS = {"http://jilu3758.odns.fr"}
+    if origin not in ALLOWED_ORIGINS:
+        return jsonify({"error": origin}), 403
         
 # Serve the Vue app for any unmatched routes
 @app.route('/', defaults={'path': ''})
