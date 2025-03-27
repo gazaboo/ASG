@@ -1,16 +1,18 @@
 from flask import Flask, request, jsonify, url_for, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
+from flask_cors import CORS
 import os
 
 APP_PREFIX = '/test_python'
 app = Flask(__name__, static_folder='static', static_url_path=f'{APP_PREFIX}/')
 
-DB_HOST = os.getenv('DB_HOST', '127.0.0.1')
+CORS(app, resources={r"/*": {"origins": "*"}})
+
+DB_HOST = os.getenv('DB_HOST')
 DB_USERNAME = os.getenv('DB_USERNAME')
 DB_PASSWORD = os.getenv('DB_PASSWORD')
 DB_NAME = os.getenv('DB_NAME')
-PORT = os.getenv('PORT', 5432)
-
+PORT = os.getenv('DB_PORT')
 app.config['SQLALCHEMY_DATABASE_URI'] = f"postgresql://{DB_USERNAME}:{DB_PASSWORD}@{DB_HOST}:{PORT}/{DB_NAME}"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
@@ -72,3 +74,7 @@ def update_user(user_id):
     user.notes = data.get('notes', user.notes)
     db.session.commit()
     return jsonify({'message': 'User updated successfully'}), 200
+
+if __name__ == '__main__':
+    debug = os.getenv('FLASK_ENV') == 'development'
+    app.run(host='0.0.0.0', port=5000, debug=debug)

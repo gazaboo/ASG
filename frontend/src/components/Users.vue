@@ -39,6 +39,7 @@ export default {
     data() {
         return {
             base: '/test_python', // on o2Switch
+            base: import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/',
             users: [],
             newUser: {
                 username: '',
