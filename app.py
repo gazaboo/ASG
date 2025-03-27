@@ -34,12 +34,11 @@ def restrict_routes():
         return
     if os.getenv('FLASK_ENV') == 'development':
         return
-    if f'/assets/' in request.path:
-        return
+    # if f'/assets/' in request.path:
+    #     return
     
     referer = request.headers.get('Referer')
     ALLOWED_ORIGIN = "jilu3758.odns.fr"
-
     if not referer or ALLOWED_ORIGIN not in referer:
         return jsonify({"error": "Forbidden"}), 403
         
