@@ -6,9 +6,10 @@ import os
 APP_PREFIX = '/test_python'
 app = Flask(__name__, static_folder='static', static_url_path=f'{APP_PREFIX}/')
 
-# from flask_cors import CORS
-# CORS(app, resources={r"/*": {"origins": "http://jilu3758.odns.fr/test_python/"}})
-# CORS(app, resources={r"/*": {"origins": "*"}})
+from flask_cors import CORS
+# Allow only Vue app to access the API routes (except '/')
+ALLOWED_ORIGINS = {"http://jilu3758.odns.fr", "http://localhost"}
+CORS(app, resources={r"/test_python/*": {"origins": ALLOWED_ORIGINS}})  # Apply CORS only to /api/*
 
 DB_HOST = os.getenv('DB_HOST', '127.0.0.1')
 DB_USERNAME = os.getenv('DB_USERNAME')
