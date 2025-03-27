@@ -40,7 +40,7 @@ def restrict_routes():
         ALLOWED_ORIGINS = {"http://jilu3758.odns.fr", "http://localhost"}
         app.logger.info(f"XXXXXXXXXXXXXXXXXXX Origin: {origin}")
         if origin not in ALLOWED_ORIGINS:
-            return jsonify({"error": "Forbidden"}), 403
+            return jsonify({"error": origin}), 403
         
 # Serve the Vue app for any unmatched routes
 @app.route('/', defaults={'path': ''})
