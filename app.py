@@ -1,12 +1,9 @@
-from flask import Flask, Blueprint, request, jsonify, url_for, send_from_directory
+from flask import Flask, request, jsonify, url_for, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
-from flask_cors import CORS
 import os
 
 APP_PREFIX = '/test_python'
 app = Flask(__name__, static_folder='static', static_url_path=f'{APP_PREFIX}/')
-
-from flask_cors import CORS
 
 DB_HOST = os.getenv('DB_HOST', '127.0.0.1')
 DB_USERNAME = os.getenv('DB_USERNAME')
@@ -23,6 +20,9 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
+    phone = db.Column(db.String(20), nullable=True)
+    address = db.Column(db.String(200), nullable=True)
+    notes = db.Column(db.Text, nullable=True)
 
 with app.app_context():
     db.create_all()
@@ -34,9 +34,7 @@ def restrict_routes():
         return
     if os.getenv('FLASK_ENV') == 'development':
         return
-    # if f'/assets/' in request.path:
-    #     return
-    
+
     referer = request.headers.get('Referer')
     ALLOWED_ORIGIN = "jilu3758.odns.fr"
     if not referer or ALLOWED_ORIGIN not in referer:
@@ -66,3 +64,11 @@ def get_users():
     users_list = [{'id': user.id, 'username': user.username, 'email': user.email} for user in users]
     return jsonify(users_list), 200
 
+@app.route('/update_user/<int:user_id>', methods=['PUT'])
+@app.route(f'{APP_PREFIX}/update_user/<int:user_id>', methods=['PUT'])
+def update_user(user_id):
+    data = request.json
+    user = User.query.get_or_404(user_id)
+    user.notes = data.get('notes', user.notes)
+    db.session.commit()
+    return jsonify({'message': 'User updated successfully'}), 200
