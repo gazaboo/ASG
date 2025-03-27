@@ -37,11 +37,11 @@ def restrict_routes():
     if f'/assets/' in request.path:
         return
     
-    origin = request.host
+    origin = request.origin
     ALLOWED_ORIGINS = {"jilu3758.odns.fr"}
     if origin not in ALLOWED_ORIGINS:
         return jsonify({
-            "error": origin,
+            "error": request.origin,
             "host": request.host,
             "request.path": request.path
             }), 403
