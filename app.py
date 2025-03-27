@@ -8,8 +8,6 @@ app = Flask(__name__, static_folder='static', static_url_path=f'{APP_PREFIX}/')
 
 from flask_cors import CORS
 # Allow only Vue app to access the API routes (except '/')
-ALLOWED_ORIGINS = {"http://jilu3758.odns.fr", "http://localhost"}
-CORS(app, resources={r"/test_python/*": {"origins": ALLOWED_ORIGINS}})  # Apply CORS only to /api/*
 
 DB_HOST = os.getenv('DB_HOST', '127.0.0.1')
 DB_USERNAME = os.getenv('DB_USERNAME')
@@ -30,6 +28,19 @@ class User(db.Model):
 with app.app_context():
     db.create_all()
 
+# Middleware to restrict access in production
+@app.before_request
+def restrict_routes():
+    if os.getenv('FLASK_ENV') == 'development':
+        return
+
+    # Allow only the root route ('/') in production
+    if request.path != '/' and not request.path.startswith(f'{APP_PREFIX}/assets'):
+        origin = request.headers.get('Origin')
+        ALLOWED_ORIGINS = {"http://jilu3758.odns.fr", "http://localhost"}
+        if origin not in ALLOWED_ORIGINS:
+            return jsonify({"error": "Forbidden"}), 403
+        
 # Serve the Vue app for any unmatched routes
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
