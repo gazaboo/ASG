@@ -13,9 +13,16 @@ local-serve:
 deploy:
 	cd frontend && rm -rf ./dist && npm run build && \
 	rm -rf ../backend/static/* && cp -r dist/* ../backend/static/ && \
-	ssh $(REMOTE_HOST) "cd $(REMOTE_DIR) && git pull origin main && cd backend && make install && make update-dependencies && make restart-app"
+	ssh $(REMOTE_HOST) "\
+		cd $(REMOTE_DIR) && \
+		git pull origin main && \
+		cp makefile backend/ && \
+		cd backend && \
+		make install && \
+		make update-dependencies && \
+		make restart-app"
 
-deploy:
+deploy-old:
 	cd vue_app && rm -rf ./dist && npm run build && \
 	rm -rf ../static/* && cp -r dist/* ../static/ && \
 	ssh $(REMOTE_HOST) "cd $(REMOTE_DIR) && git pull origin main && make install && make update-dependencies && make restart-app"
