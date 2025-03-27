@@ -37,6 +37,7 @@ def restrict_routes():
     if f'/assets/' in request.path:
         return
     
+    return request.headers.get('Referer')
     # referer = request.headers.get('Referer')
     # ALLOWED_ORIGIN = "jilu3758.odns.fr"
 
