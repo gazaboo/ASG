@@ -7,7 +7,6 @@ APP_PREFIX = '/test_python'
 app = Flask(__name__, static_folder='static', static_url_path=f'{APP_PREFIX}/')
 
 from flask_cors import CORS
-# Allow only Vue app to access the API routes (except '/')
 
 DB_HOST = os.getenv('DB_HOST', '127.0.0.1')
 DB_USERNAME = os.getenv('DB_USERNAME')
@@ -35,7 +34,7 @@ def restrict_routes():
         return
     if os.getenv('FLASK_ENV') == 'development':
         return
-    if request.path.startswith(f'{APP_PREFIX}/assets'):
+    if f'{APP_PREFIX}/assets' in request.path:
         return
     
     origin = request.headers.get('Origin')
