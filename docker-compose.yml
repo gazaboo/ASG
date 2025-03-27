@@ -5,6 +5,9 @@ services:
     ports:
       - "5000:5000"
     environment:
+      APP_NAME_O2SWITCH: test_python
+      FLASK_ENV: development
+      FLASK_DEBUG: 1
       FLASK_APP: app.py
       FLASK_RUN_HOST: 0.0.0.0
       DB_HOST: db

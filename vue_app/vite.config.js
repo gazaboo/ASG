@@ -1,8 +1,12 @@
+// https://vite.dev/config/
+
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 
-// https://vite.dev/config/
+const basePath = '/'
+// const basePath = '/test_python/'
+
 export default defineConfig({
-  base: process.env.NODE_ENV === 'production' ? '/test_python/' : '/',
+  base: basePath,
   plugins: [vue()],
 })
