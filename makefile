@@ -14,7 +14,7 @@ build:
 	cd frontend && rm -rf ./dist/* && \
 	npm run build && cd .. && \
 	rm -rf backend/static/* && \
-	cp -r frontend/dist/* backend/static/
+	mv -r frontend/dist/* backend/static/
 
 deploy:
 	ssh $(REMOTE_HOST) "\
