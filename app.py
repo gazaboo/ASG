@@ -41,12 +41,7 @@ def restrict_routes():
     ALLOWED_ORIGIN = "jilu3758.odns.fr"
 
     if ALLOWED_ORIGIN not in referer:
-        return jsonify({
-            "error": request.origin,
-            "host": request.host,
-            "request.path": request.path,
-            "request.referer": request
-            }), 403
+        return jsonify({"error": "error"}), 403
         
 # Serve the Vue app for any unmatched routes
 @app.route('/', defaults={'path': ''})
