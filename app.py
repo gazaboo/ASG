@@ -34,7 +34,7 @@ def restrict_routes():
         return
     if os.getenv('FLASK_ENV') == 'development':
         return
-    if f'{APP_PREFIX}/assets' in request.path:
+    if f'/assets/' in request.path:
         return
     
     origin = request.headers.get('Origin')
@@ -42,6 +42,7 @@ def restrict_routes():
     if origin not in ALLOWED_ORIGINS:
         return jsonify({
             "error": origin,
+            "host": request.host,
             "request.path": request.path
             }), 403
         
