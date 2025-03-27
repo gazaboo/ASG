@@ -1,7 +1,7 @@
 <!-- filepath: /home/gazaboo/Documents/dev/test_python_O2Switch/vue_app/src/components/Users.vue -->
 <template>
     <div class="users-container">
-        <h1>User Management</h1>
+        <h1>Usersss Management</h1>
         <div class="users-list">
             <User v-for="user in users" :key="user.id" :user="user" />
         </div>

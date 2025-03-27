@@ -10,14 +10,18 @@ local-serve:
 	sudo docker compose up --build
 	cd vue_app && npm run serve 
 
+build:
+	cd frontend && rm -rf ./dist/* && \
+	npm run build && cd .. && \
+	rm -rf backend/static/* && \
+	cp -r frontend/dist/* backend/static/
+
 deploy:
-	cd frontend && rm -rf ./dist && npm run build && \
-	rm -rf ../backend/static/* && cp -r dist/* ../backend/static/ && \
 	ssh $(REMOTE_HOST) "\
 		cd $(REMOTE_DIR) && \
 		git pull origin main && \
-		cp makefile backend/ && \
-		cd backend && \
+		mv backend/* ./ && \
+		ls -a && \
 		make install && \
 		make update-dependencies && \
 		make restart-app"
