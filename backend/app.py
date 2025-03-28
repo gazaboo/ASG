@@ -29,18 +29,19 @@ class User(db.Model):
 with app.app_context():
     db.create_all()
 
-# Middleware to restrict access in production
-@app.before_request
-def restrict_routes():
-    if request.path == '/':
-        return
-    if os.getenv('FLASK_ENV') == 'development':
-        return
+# # Middleware to restrict access in production
+# @app.before_request
+# def restrict_routes():
+#     if request.path == '/':
+#         return
+#     if os.getenv('FLASK_ENV') == 'development':
+#         return
 
-    referer = request.headers.get('Referer')
-    ALLOWED_ORIGIN = "jilu3758.odns.fr"
-    if not referer or ALLOWED_ORIGIN not in referer:
-        return jsonify({"error": "Forbidden"}), 403
+#     referer = request.headers.get('Referer')
+#     ALLOWED_ORIGIN = "jilu3758.odns.fr"
+#     if not referer or ALLOWED_ORIGIN not in referer:
+#         return jsonify({"error": "Forbidden"}), 403
+  
         
 # Serve the Vue app for any unmatched routes
 @app.route('/', defaults={'path': ''})
@@ -62,10 +63,9 @@ def create_user():
 @app.route('/users', methods=['GET'])
 @app.route(f'{APP_PREFIX}/users', methods=['GET'])
 def get_users():
-    # users = User.query.all()
-    # users_list = [{'id': user.id, 'username': user.username, 'email': user.email} for user in users]
-    # return jsonify(users_list), 200
-     return jsonify({'message': 'Super !!'}), 200
+    users = User.query.all()
+    users_list = [{'id': user.id, 'username': user.username, 'email': user.email} for user in users]
+    return jsonify(users_list), 200
 
 @app.route('/update_user/<int:user_id>', methods=['PUT'])
 @app.route(f'{APP_PREFIX}/update_user/<int:user_id>', methods=['PUT'])
