@@ -41,8 +41,8 @@ with app.app_context():
 #     ALLOWED_ORIGIN = "jilu3758.odns.fr"
 #     if not referer or ALLOWED_ORIGIN not in referer:
 #         return jsonify({"error": "Forbidden"}), 403
-  
-        
+
+
 # Serve the Vue app for any unmatched routes
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
@@ -63,9 +63,11 @@ def create_user():
 @app.route('/users', methods=['GET'])
 @app.route(f'{APP_PREFIX}/users', methods=['GET'])
 def get_users():
-    users = User.query.all()
-    users_list = [{'id': user.id, 'username': user.username, 'email': user.email} for user in users]
-    return jsonify(users_list), 200
+    # users = User.query.all()
+    # users_list = [{'id': user.id, 'username': user.username, 'email': user.email} for user in users]
+    # return jsonify(users_list), 200
+    return jsonify({'message': 'User updated successfully'}), 200
+
 
 @app.route('/update_user/<int:user_id>', methods=['PUT'])
 @app.route(f'{APP_PREFIX}/update_user/<int:user_id>', methods=['PUT'])
