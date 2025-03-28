@@ -8,7 +8,7 @@ app = Flask(__name__, static_folder='static_flask', static_url_path=f'{APP_PREFI
 
 CORS(app, resources={r"/*": {"origins": "*"}})
 
-DB_HOST = os.getenv('DB_HOST')
+DB_HOST = os.getenv('DB_HOST', '127.0.0.1')
 DB_USERNAME = os.getenv('DB_USERNAME')
 DB_PASSWORD = os.getenv('DB_PASSWORD')
 DB_NAME = os.getenv('DB_NAME')
