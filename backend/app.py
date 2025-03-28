@@ -4,7 +4,7 @@ from flask_cors import CORS
 import os
 
 APP_PREFIX = '/test_python'
-app = Flask(__name__, static_folder='static', static_url_path=f'{APP_PREFIX}/')
+app = Flask(__name__, static_folder='static_flask', static_url_path=f'{APP_PREFIX}/')
 
 CORS(app, resources={r"/*": {"origins": "*"}})
 
