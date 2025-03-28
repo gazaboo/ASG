@@ -13,8 +13,8 @@ local-serve:
 build:
 	cd frontend && rm -rf ./dist/* && \
 	npm run build && cd .. && \
-	rm -rf backend/static/* && \
-	mv frontend/dist/* backend/static/
+	rm -rf backend/static_flask/* && \
+	mv frontend/dist/* backend/static_flask/
 
 deploy:
 	ssh $(REMOTE_HOST) "\
