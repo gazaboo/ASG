@@ -62,9 +62,10 @@ def create_user():
 @app.route('/users', methods=['GET'])
 @app.route(f'{APP_PREFIX}/users', methods=['GET'])
 def get_users():
-    users = User.query.all()
-    users_list = [{'id': user.id, 'username': user.username, 'email': user.email} for user in users]
-    return jsonify(users_list), 200
+    # users = User.query.all()
+    # users_list = [{'id': user.id, 'username': user.username, 'email': user.email} for user in users]
+    # return jsonify(users_list), 200
+     return jsonify({'message': 'Super !!'}), 200
 
 @app.route('/update_user/<int:user_id>', methods=['PUT'])
 @app.route(f'{APP_PREFIX}/update_user/<int:user_id>', methods=['PUT'])
@@ -75,6 +76,6 @@ def update_user(user_id):
     db.session.commit()
     return jsonify({'message': 'User updated successfully'}), 200
 
-if __name__ == '__main__':
-    debug = os.getenv('FLASK_ENV') == 'development'
-    app.run(host='0.0.0.0', port=5000, debug=debug)
+# if __name__ == '__main__':
+#     debug = os.getenv('FLASK_ENV') == 'development'
+#     app.run(host='0.0.0.0', port=5000, debug=debug)
