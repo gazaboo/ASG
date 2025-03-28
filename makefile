@@ -20,7 +20,7 @@ deploy:
 	ssh $(REMOTE_HOST) "\
 		cd $(REMOTE_DIR) && \
 		git pull origin main && \
-		mv backend/* ./ && \
+		mv backend/* ./ 2>/dev/null && \
 		ls -a && \
 		make install && \
 		make update-dependencies && \
