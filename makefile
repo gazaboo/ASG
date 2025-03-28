@@ -14,14 +14,14 @@ build:
 	cd frontend && rm -rf ./dist/* && \
 	npm run build && cd .. && \
 	rm -rf backend/static/* && \
-	mv frontend/dist/ backend/static/
+	mv frontend/dist/* backend/static/
 
 deploy:
 	ssh $(REMOTE_HOST) "\
 		cd $(REMOTE_DIR) && \
 		git pull origin main && \
-		mv backend/* ./ 2>/dev/null && \
 		ls -a && \
+		mv backend/* ./ && \
 		make install && \
 		make update-dependencies && \
 		make restart-app"
