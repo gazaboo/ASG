@@ -13,15 +13,13 @@ local-serve:
 build:
 	cd frontend && rm -rf ./dist/* && \
 	npm run build && cd .. && \
-	rm -rf backend/static_flask/* && \
-	mv frontend/dist/* backend/static_flask/
+	rm -rf backend/static/* && \
+	mv frontend/dist/* backend/static/
 
 deploy:
 	ssh $(REMOTE_HOST) "\
 		cd $(REMOTE_DIR) && \
 		git pull origin main && \
-		ls -a && \
-		mv backend/* ./ && \
 		make install && \
 		make update-dependencies && \
 		make restart-app"
@@ -40,10 +38,10 @@ local-run:
 
 install:
 	test -d $(VENV_DIR) || python3 -m venv $(VENV_DIR)
-	. $(VENV_DIR)/bin/activate && pip install -r requirements.txt
+	. $(VENV_DIR)/bin/activate && pip install -r backend/requirements.txt
 
 update-dependencies:
-	. $(VENV_DIR)/bin/activate && pip install --upgrade -r requirements.txt
+	. $(VENV_DIR)/bin/activate && pip install --upgrade -r backend/requirements.txt
 
 restart-app:
 	touch $(REMOTE_DIR)/tmp/restart.txt
@@ -56,10 +54,6 @@ clean:
 	find . -type f -name '*.pyc' -delete
 	find . -type d -name '__pycache__' -delete
 
-test:
-	. $(VENV_DIR)/bin/activate && python -m pytest
 
-lint:
-	. $(VENV_DIR)/bin/activate && flake8 .
 
 
